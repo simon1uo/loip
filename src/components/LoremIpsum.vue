@@ -34,7 +34,7 @@ const paragraphs = computed(() => {
 
 <template>
   <div class="lorem-ipsum">
-    <p v-for="(paragraph, index) in paragraphs" :key="index" class="mb-4">
+    <p v-for="(paragraph, index) in paragraphs" :key="index" class="mb-4 text-gray-800 dark:text-gray-300">
       {{ paragraph }}
     </p>
   </div>

@@ -36,6 +36,7 @@
     "lint": "eslint . --ext .vue,.ts,.js --fix"
   },
   "dependencies": {
+    "@vueuse/core": "^13.1.0",
     "vue": "^3.5.13"
   },
   "devDependencies": {
@@ -45,6 +46,7 @@
     "@unocss/preset-attributify": "66.1.0-beta.11",
     "@unocss/preset-icons": "66.1.0-beta.11",
     "@unocss/preset-uno": "66.1.0-beta.11",
+    "@unocss/reset": "66.1.0-beta.11",
     "@vitejs/plugin-vue": "^5.2.2",
     "@vue/tsconfig": "^0.7.0",
     "eslint": "^9.24.0",
