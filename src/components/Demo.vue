@@ -107,14 +107,16 @@ function shuffleUsers() {
 
 <template>
   <div
-    class="demo-container max-w-full p-2 font-sans sm:mx-auto lg:max-w-4xl md:max-w-3xl sm:max-w-2xl md:p-6 sm:p-4 xs:p-3">
+    class="demo-container max-w-full p-2 font-sans sm:mx-auto lg:max-w-4xl md:max-w-3xl sm:max-w-2xl md:p-6 sm:p-4 xs:p-3"
+  >
     <div class="mb-3 flex flex-row items-center justify-between gap-3 sm:mb-6 xs:mb-4 sm:gap-0">
       <h1 class="text-center text-2xl text-dark font-bold sm:text-3xl dark:text-white">
         LoIp
       </h1>
       <button
         class="theme-toggle h-10 w-10 flex items-center justify-center rounded-lg bg-gray-200 p-2 text-black dark:bg-gray-700 dark:text-white"
-        aria-label="Toggle dark mode" @click="toggleDark()">
+        aria-label="Toggle dark mode" @click="toggleDark()"
+      >
         <div v-if="isDark" class="i-lucide-sun text-lg" />
         <div v-else class="i-lucide-moon text-lg" />
       </button>
@@ -125,16 +127,20 @@ function shuffleUsers() {
 
     <!-- Tab Navigation -->
     <div class="tab-navigation mb-4 flex">
-      <button class="tab-button flex-1 px-4 py-3 text-center font-medium transition-colors duration-200" :class="{
-        'bg-blue-600 text-white': activeTab === 'lorem-ipsum',
-        'bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-300': activeTab !== 'lorem-ipsum',
-      }" @click="setActiveTab('lorem-ipsum')">
+      <button
+        class="tab-button flex-1 px-4 py-3 text-center font-medium transition-colors duration-200" :class="{
+          'bg-blue-600 text-white': activeTab === 'lorem-ipsum',
+          'bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-300': activeTab !== 'lorem-ipsum',
+        }" @click="setActiveTab('lorem-ipsum')"
+      >
         Lorem Ipsum
       </button>
-      <button class="tab-button flex-1 px-4 py-3 text-center font-medium transition-colors duration-200" :class="{
-        'bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-300': activeTab !== 'random-user',
-        'bg-blue-600 text-white': activeTab === 'random-user',
-      }" @click="setActiveTab('random-user')">
+      <button
+        class="tab-button flex-1 px-4 py-3 text-center font-medium transition-colors duration-200" :class="{
+          'bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-300': activeTab !== 'random-user',
+          'bg-blue-600 text-white': activeTab === 'random-user',
+        }" @click="setActiveTab('random-user')"
+      >
         Random User
       </button>
     </div>
@@ -148,12 +154,17 @@ function shuffleUsers() {
           </h2>
           <button
             class="refresh-button rounded-lg bg-blue-500 px-4 py-2 text-white dark:bg-blue-600 hover:bg-blue-600 dark:hover:bg-blue-700"
-            @click="forceRefresh">
+            @click="forceRefresh"
+          >
             <span class="flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg" class="mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                />
               </svg>
               Refresh Text
             </span>
@@ -162,40 +173,56 @@ function shuffleUsers() {
 
         <div class="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-4 xs:gap-3">
           <div class="form-group">
-            <label for="paragraphs"
-              class="mb-1 block text-sm text-gray-700 sm:mb-2 sm:text-base dark:text-gray-300">Paragraphs</label>
-            <input id="paragraphs" v-model.number="options.p" type="number" min="1" max="10"
-              class="w-full border border-gray-300 rounded bg-white p-1.5 text-sm text-gray-800 dark:border-gray-600 dark:bg-gray-700 sm:p-2 sm:text-base dark:text-white">
+            <label
+              for="paragraphs"
+              class="mb-1 block text-sm text-gray-700 sm:mb-2 sm:text-base dark:text-gray-300"
+            >Paragraphs</label>
+            <input
+              id="paragraphs" v-model.number="options.p" type="number" min="1" max="10"
+              class="w-full border border-gray-300 rounded bg-white p-1.5 text-sm text-gray-800 dark:border-gray-600 dark:bg-gray-700 sm:p-2 sm:text-base dark:text-white"
+            >
           </div>
 
           <div class="form-group">
-            <label for="avgWordsPerSentence"
-              class="mb-1 block text-sm text-gray-700 sm:mb-2 sm:text-base dark:text-gray-300">Avg. Words Per
+            <label
+              for="avgWordsPerSentence"
+              class="mb-1 block text-sm text-gray-700 sm:mb-2 sm:text-base dark:text-gray-300"
+            >Avg. Words Per
               Sentence</label>
-            <input id="avgWordsPerSentence" v-model.number="options.avgWordsPerSentence" type="number" min="3" max="15"
-              class="w-full border border-gray-300 rounded bg-white p-1.5 text-sm text-gray-800 dark:border-gray-600 dark:bg-gray-700 sm:p-2 sm:text-base dark:text-white">
+            <input
+              id="avgWordsPerSentence" v-model.number="options.avgWordsPerSentence" type="number" min="3" max="15"
+              class="w-full border border-gray-300 rounded bg-white p-1.5 text-sm text-gray-800 dark:border-gray-600 dark:bg-gray-700 sm:p-2 sm:text-base dark:text-white"
+            >
           </div>
 
           <div class="form-group">
-            <label for="avgSentencesPerParagraph"
-              class="mb-1 block text-sm text-gray-700 sm:mb-2 sm:text-base dark:text-gray-300">Avg. Sentences Per
+            <label
+              for="avgSentencesPerParagraph"
+              class="mb-1 block text-sm text-gray-700 sm:mb-2 sm:text-base dark:text-gray-300"
+            >Avg. Sentences Per
               Paragraph</label>
-            <input id="avgSentencesPerParagraph" v-model.number="options.avgSentencesPerParagraph" type="number" min="1"
+            <input
+              id="avgSentencesPerParagraph" v-model.number="options.avgSentencesPerParagraph" type="number" min="1"
               max="10"
-              class="w-full border border-gray-300 rounded bg-white p-1.5 text-sm text-gray-800 dark:border-gray-600 dark:bg-gray-700 sm:p-2 sm:text-base dark:text-white">
+              class="w-full border border-gray-300 rounded bg-white p-1.5 text-sm text-gray-800 dark:border-gray-600 dark:bg-gray-700 sm:p-2 sm:text-base dark:text-white"
+            >
           </div>
 
           <div class="form-group flex flex-col gap-2 xs:flex-row xs:items-center">
             <div class="mr-0 xs:mr-4">
-              <input id="startWithLoremIpsum" v-model="options.startWithLoremIpsum" type="checkbox"
-                class="mr-1.5 xs:mr-2 dark:accent-blue-500">
+              <input
+                id="startWithLoremIpsum" v-model="options.startWithLoremIpsum" type="checkbox"
+                class="mr-1.5 xs:mr-2 dark:accent-blue-500"
+              >
               <label for="startWithLoremIpsum" class="text-sm text-gray-700 xs:text-base dark:text-gray-300">Start with
                 "Lorem ipsum"</label>
             </div>
 
             <div>
-              <input id="random" v-model="options.random" type="checkbox" class="mr-1.5 xs:mr-2 dark:accent-blue-500"
-                @change="forceRefresh">
+              <input
+                id="random" v-model="options.random" type="checkbox" class="mr-1.5 xs:mr-2 dark:accent-blue-500"
+                @change="forceRefresh"
+              >
               <label for="random" class="text-sm text-gray-700 xs:text-base dark:text-gray-300">Random text</label>
             </div>
           </div>
@@ -203,7 +230,8 @@ function shuffleUsers() {
           <div class="form-group mt-4">
             <button
               class="reset-button w-full rounded-lg bg-blue-400 px-4 py-2 text-white dark:bg-blue-600 hover:bg-blue-500 dark:hover:bg-blue-700"
-              @click="resetToDefaultProps">
+              @click="resetToDefaultProps"
+            >
               Reset to Default Props
             </button>
           </div>
@@ -214,9 +242,11 @@ function shuffleUsers() {
         <h2 class="mb-2 text-lg text-dark font-semibold sm:mb-4 xs:mb-3 sm:text-xl dark:text-white">
           Lorem Ipsum Text
         </h2>
-        <LoremIpsum :p="options.p" :avg-words-per-sentence="options.avgWordsPerSentence"
+        <LoremIpsum
+          :p="options.p" :avg-words-per-sentence="options.avgWordsPerSentence"
           :avg-sentences-per-paragraph="options.avgSentencesPerParagraph"
-          :start-with-lorem-ipsum="options.startWithLoremIpsum" :random="options.random" class="text-sm sm:text-base" />
+          :start-with-lorem-ipsum="options.startWithLoremIpsum" :random="options.random" class="text-sm sm:text-base"
+        />
       </div>
     </div>
 
@@ -228,12 +258,17 @@ function shuffleUsers() {
           </h2>
           <button
             class="shuffle-button rounded-lg bg-blue-500 px-4 py-2 text-white dark:bg-blue-600 hover:bg-blue-600 dark:hover:bg-blue-700"
-            @click="shuffleUsers">
+            @click="shuffleUsers"
+          >
             <span class="flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg" class="mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                />
               </svg>
               Shuffle Users
             </span>
@@ -248,9 +283,12 @@ function shuffleUsers() {
 
         <div class="grid grid-cols-1 gap-2 lg:grid-cols-2 sm:grid-cols-2 sm:gap-6 xs:gap-3">
           <div
-            class="user-card border border-gray-200 rounded-lg bg-white p-2 text-center dark:border-gray-700 dark:bg-gray-700 sm:p-4 xs:p-3">
-            <Avatar :key="userData.maleUser.avatarKey" gender="male"
-              class="mx-auto mb-2 h-12 w-12 sm:mb-4 xs:mb-3 md:h-24 md:w-24 sm:h-20 sm:w-20 xs:h-16 xs:w-16" />
+            class="user-card border border-gray-200 rounded-lg bg-white p-2 text-center dark:border-gray-700 dark:bg-gray-700 sm:p-4 xs:p-3"
+          >
+            <Avatar
+              :key="userData.maleUser.avatarKey" gender="male"
+              class="mx-auto mb-2 h-12 w-12 sm:mb-4 xs:mb-3 md:h-24 md:w-24 sm:h-20 sm:w-20 xs:h-16 xs:w-16"
+            />
             <h3 class="text-base text-gray-800 font-medium sm:text-lg dark:text-white">
               {{ userData.maleUser.fullname }}
             </h3>
@@ -260,9 +298,12 @@ function shuffleUsers() {
           </div>
 
           <div
-            class="user-card border border-gray-200 rounded-lg bg-white p-2 text-center dark:border-gray-700 dark:bg-gray-700 sm:p-4 xs:p-3">
-            <Avatar :key="userData.femaleUser.avatarKey" gender="female"
-              class="mx-auto mb-2 h-12 w-12 sm:mb-4 xs:mb-3 md:h-24 md:w-24 sm:h-20 sm:w-20 xs:h-16 xs:w-16" />
+            class="user-card border border-gray-200 rounded-lg bg-white p-2 text-center dark:border-gray-700 dark:bg-gray-700 sm:p-4 xs:p-3"
+          >
+            <Avatar
+              :key="userData.femaleUser.avatarKey" gender="female"
+              class="mx-auto mb-2 h-12 w-12 sm:mb-4 xs:mb-3 md:h-24 md:w-24 sm:h-20 sm:w-20 xs:h-16 xs:w-16"
+            />
             <h3 class="text-base text-gray-800 font-medium sm:text-lg dark:text-white">
               {{ userData.femaleUser.fullname }}
             </h3>
@@ -272,9 +313,12 @@ function shuffleUsers() {
           </div>
 
           <div
-            class="user-card border border-gray-200 rounded-lg bg-white p-2 text-center dark:border-gray-700 dark:bg-gray-700 sm:p-4 xs:p-3">
-            <Avatar :key="userData.randomUser1.avatarKey" :gender="userData.randomUser1.gender as Gender"
-              class="mx-auto mb-2 h-12 w-12 sm:mb-4 xs:mb-3 md:h-24 md:w-24 sm:h-20 sm:w-20 xs:h-16 xs:w-16" />
+            class="user-card border border-gray-200 rounded-lg bg-white p-2 text-center dark:border-gray-700 dark:bg-gray-700 sm:p-4 xs:p-3"
+          >
+            <Avatar
+              :key="userData.randomUser1.avatarKey" :gender="userData.randomUser1.gender as Gender"
+              class="mx-auto mb-2 h-12 w-12 sm:mb-4 xs:mb-3 md:h-24 md:w-24 sm:h-20 sm:w-20 xs:h-16 xs:w-16"
+            />
             <h3 class="text-base text-gray-800 font-medium sm:text-lg dark:text-white">
               {{ userData.randomUser1.fullname }}
             </h3>
@@ -284,9 +328,12 @@ function shuffleUsers() {
           </div>
 
           <div
-            class="user-card border border-gray-200 rounded-lg bg-white p-2 text-center dark:border-gray-700 dark:bg-gray-700 sm:p-4 xs:p-3">
-            <Avatar :key="userData.randomUser2.avatarKey" :gender="userData.randomUser2.gender as Gender"
-              class="mx-auto mb-2 h-12 w-12 sm:mb-4 xs:mb-3 md:h-24 md:w-24 sm:h-20 sm:w-20 xs:h-16 xs:w-16" />
+            class="user-card border border-gray-200 rounded-lg bg-white p-2 text-center dark:border-gray-700 dark:bg-gray-700 sm:p-4 xs:p-3"
+          >
+            <Avatar
+              :key="userData.randomUser2.avatarKey" :gender="userData.randomUser2.gender as Gender"
+              class="mx-auto mb-2 h-12 w-12 sm:mb-4 xs:mb-3 md:h-24 md:w-24 sm:h-20 sm:w-20 xs:h-16 xs:w-16"
+            />
             <h3 class="text-base text-gray-800 font-medium sm:text-lg dark:text-white">
               {{ userData.randomUser2.fullname }}
             </h3>
