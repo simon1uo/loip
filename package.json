@@ -32,6 +32,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
+    "build:demo": "vue-tsc -b && vite build --mode demo",
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.ts,.js --fix"
   },

@@ -4,12 +4,17 @@ import UnoCSS from 'unocss/vite'
 import { defineConfig } from 'vite'
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [
     vue(),
     UnoCSS(),
   ],
-  build: {
+  build: mode === 'demo' ? {
+    // Demo build configuration for Vercel deployment
+    outDir: 'dist-demo',
+    emptyOutDir: true,
+  } : {
+    // Library build configuration
     lib: {
       entry: path.resolve(__dirname, 'src/index.ts'),
       name: 'Loip',
@@ -28,4 +33,4 @@ export default defineConfig({
       },
     },
   },
-})
+}))
