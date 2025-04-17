@@ -221,7 +221,3 @@ import { fullname, username } from 'loip'
   <div class="username">@smart.fox.19</div>
 </div>
 ```
-
-## License
-
-`loip` is released under the MIT license.
