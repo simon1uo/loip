@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { LoremIpsumOptions } from '../utils/lorem-ipsum'
-import { computed } from 'vue'
+import { ref, watch } from 'vue'
 import { loremIpsum } from '../utils/lorem-ipsum'
 
 interface Props {
@@ -19,7 +19,11 @@ const props = withDefaults(defineProps<Props>(), {
   random: true,
 })
 
-const paragraphs = computed(() => {
+// Use ref instead of computed for paragraphs
+const paragraphs = ref<string[]>([])
+
+// Function to update paragraphs based on current props
+function updateParagraphs() {
   const options: LoremIpsumOptions = {
     p: props.p,
     avgWordsPerSentence: props.avgWordsPerSentence,
@@ -28,8 +32,21 @@ const paragraphs = computed(() => {
     random: props.random,
   }
 
-  return loremIpsum(options)
-})
+  paragraphs.value = loremIpsum(options)
+}
+
+// Watch all props for changes and update paragraphs when any prop changes
+watch(
+  () => ({
+    p: props.p,
+    avgWordsPerSentence: props.avgWordsPerSentence,
+    avgSentencesPerParagraph: props.avgSentencesPerParagraph,
+    startWithLoremIpsum: props.startWithLoremIpsum,
+    random: props.random,
+  }),
+  () => updateParagraphs(),
+  { immediate: true }, // Run immediately on component creation
+)
 </script>
 
 <template>

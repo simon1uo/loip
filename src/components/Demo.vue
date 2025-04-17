@@ -58,6 +58,17 @@ function resetToDefaultProps() {
   options.avgSentencesPerParagraph = 6
   options.startWithLoremIpsum = true
   options.random = true
+  // The component will automatically refresh when props change
+}
+
+// Force refresh of the Lorem Ipsum text
+function forceRefresh() {
+  // This function is called when the random checkbox is toggled or refresh button is clicked
+  // Toggle random to force a refresh
+  options.random = !options.random
+  setTimeout(() => {
+    options.random = !options.random
+  })
 }
 
 // Shuffle users to get new random data
@@ -89,9 +100,11 @@ function shuffleUsers() {
       <h1 class="text-center text-2xl text-dark font-bold sm:text-3xl dark:text-white">
         LoIp
       </h1>
-      <button class="theme-toggle w-auto rounded-lg bg-gray-200 p-2 text-black dark:bg-gray-700 sm:px-3 dark:text-white"
-        @click="toggleDark()">
-        {{ isDark ? 'Light Mode' : 'Dark Mode' }}
+      <button
+        class="theme-toggle h-10 w-10 flex items-center justify-center rounded-lg bg-gray-200 p-2 text-black dark:bg-gray-700 dark:text-white"
+        aria-label="Toggle dark mode" @click="toggleDark()">
+        <div v-if="isDark" class="i-lucide-sun text-lg" />
+        <div v-else class="i-lucide-moon text-lg" />
       </button>
     </div>
     <p class="mb-4 text-center text-sm text-gray-700 sm:mb-8 xs:mb-5 sm:text-base dark:text-gray-300">
@@ -117,9 +130,23 @@ function shuffleUsers() {
     <!-- Tab Content -->
     <div v-if="activeTab === 'lorem-ipsum'">
       <div class="controls mb-4 rounded-lg bg-gray-100 p-2 sm:mb-8 xs:mb-5 dark:bg-gray-800 sm:p-4 xs:p-3">
-        <h2 class="mb-2 text-lg text-dark font-semibold sm:mb-4 xs:mb-3 sm:text-xl dark:text-white">
-          Options
-        </h2>
+        <div class="mb-2 flex items-center justify-between sm:mb-4 xs:mb-3">
+          <h2 class="mb-0 text-lg text-dark font-semibold sm:text-xl dark:text-white">
+            Options
+          </h2>
+          <button
+            class="refresh-button rounded-lg bg-blue-500 px-4 py-2 text-white dark:bg-blue-600 hover:bg-blue-600 dark:hover:bg-blue-700"
+            @click="forceRefresh">
+            <span class="flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              Refresh Text
+            </span>
+          </button>
+        </div>
 
         <div class="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-4 xs:gap-3">
           <div class="form-group">
@@ -155,7 +182,8 @@ function shuffleUsers() {
             </div>
 
             <div>
-              <input id="random" v-model="options.random" type="checkbox" class="mr-1.5 xs:mr-2 dark:accent-blue-500">
+              <input id="random" v-model="options.random" type="checkbox" class="mr-1.5 xs:mr-2 dark:accent-blue-500"
+                @change="forceRefresh">
               <label for="random" class="text-sm text-gray-700 xs:text-base dark:text-gray-300">Random text</label>
             </div>
           </div>

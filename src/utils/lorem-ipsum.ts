@@ -306,16 +306,17 @@ const usernameNouns = [
 ]
 
 // Helper functions
-function getRandomInt(min: number, max: number): number {
-  return Math.floor(Math.random() * (max - min + 1)) + min
+function getRandomInt(min: number, max: number, useRandom: boolean = true): number {
+  const randomValue = useRandom ? Math.random() : 0.5
+  return Math.floor(randomValue * (max - min + 1)) + min
 }
 
-function getRandomElement<T>(array: T[]): T {
-  return array[getRandomInt(0, array.length - 1)]
+function getRandomElement<T>(array: T[], useRandom: boolean = true): T {
+  return array[getRandomInt(0, array.length - 1, useRandom)]
 }
 
-function getRandomWord(): string {
-  return getRandomElement(words)
+function getRandomWord(useRandom: boolean = true): string {
+  return getRandomElement(words, useRandom)
 }
 
 // Main functions for lorem ipsum generation
@@ -336,11 +337,6 @@ export function loremIpsum(options: LoremIpsumOptions = {}): string[] {
     random = true,
   } = options
 
-  // Set seed for non-random generation
-  if (!random) {
-    Math.random = () => 0.5
-  }
-
   const paragraphs: string[] = []
 
   for (let i = 0; i < p; i++) {
@@ -348,6 +344,7 @@ export function loremIpsum(options: LoremIpsumOptions = {}): string[] {
     const sentenceCount = getRandomInt(
       Math.floor(avgSentencesPerParagraph * 0.75),
       Math.ceil(avgSentencesPerParagraph * 1.25),
+      random,
     )
 
     for (let j = 0; j < sentenceCount; j++) {
@@ -355,6 +352,7 @@ export function loremIpsum(options: LoremIpsumOptions = {}): string[] {
       const wordCount = getRandomInt(
         Math.floor(avgWordsPerSentence * 0.75),
         Math.ceil(avgWordsPerSentence * 1.25),
+        random,
       )
 
       // Start with 'Lorem ipsum dolor sit amet' for the first sentence of the first paragraph
@@ -363,13 +361,13 @@ export function loremIpsum(options: LoremIpsumOptions = {}): string[] {
 
         // Add more random words if needed
         for (let k = sentence.length; k < wordCount; k++) {
-          sentence.push(getRandomWord())
+          sentence.push(getRandomWord(random))
         }
       }
       else {
         // Generate a random sentence
         for (let k = 0; k < wordCount; k++) {
-          sentence.push(getRandomWord())
+          sentence.push(getRandomWord(random))
         }
       }
 
@@ -377,7 +375,7 @@ export function loremIpsum(options: LoremIpsumOptions = {}): string[] {
       sentence[0] = sentence[0].charAt(0).toUpperCase() + sentence[0].slice(1)
 
       // Add punctuation
-      const punctuation = getRandomInt(1, 10) <= 8 ? '.' : getRandomInt(1, 10) <= 5 ? ';' : '?'
+      const punctuation = getRandomInt(1, 10, random) <= 8 ? '.' : getRandomInt(1, 10, random) <= 5 ? ';' : '?'
 
       sentences.push(sentence.join(' ') + punctuation)
     }
