@@ -1,14 +1,26 @@
 <script setup lang="ts">
 import type { Gender } from '../utils/lorem-ipsum'
 import { useDark, useToggle } from '@vueuse/core'
-import { reactive, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
+import {
+  avatarComponent,
+  loremIpsumBasic,
+  loremIpsumFunction,
+  loremIpsumWithOptions,
+  nameFunctions,
+  usernameAndAvatarUrl,
+} from '../utils/code-examples'
 import { fullname, username } from '../utils/lorem-ipsum'
 import Avatar from './Avatar.vue'
+import CodeBlock from './CodeBlock.vue'
 import LoremIpsum from './LoremIpsum.vue'
 
 // Use VueUse's useDark hook to detect and toggle dark mode
 const isDark = useDark()
 const toggleDark = useToggle(isDark)
+
+// Compute theme for code blocks based on dark mode
+const codeBlockTheme = computed(() => isDark.value ? 'dark' : 'light')
 
 // Tab management
 const activeTab = ref('lorem-ipsum')
@@ -291,48 +303,52 @@ function shuffleUsers() {
         Usage Examples
       </h2>
 
-      <div class="example mb-4 sm:mb-6 xs:mb-5">
-        <h3 class="mb-1 text-base text-gray-800 font-medium xs:mb-2 xs:text-lg dark:text-white">
-          Basic Usage
-        </h3>
-        <pre
-          class="overflow-x-auto rounded bg-gray-100 p-1.5 text-xs text-gray-800 dark:bg-gray-900 sm:p-4 xs:p-3 sm:text-base xs:text-sm dark:text-gray-300">
-import { LoremIpsum, Avatar } from 'loip'
+      <!-- Lorem Ipsum Tab Examples -->
+      <div v-if="activeTab === 'lorem-ipsum'">
+        <div class="example mb-4 sm:mb-6 xs:mb-5">
+          <h3 class="mb-1 text-base text-gray-800 font-medium xs:mb-2 xs:text-lg dark:text-white">
+            Basic Usage
+          </h3>
+          <CodeBlock :theme="codeBlockTheme" lang="javascript" :code="loremIpsumBasic" />
+        </div>
 
-&lt;LoremIpsum :p="2" /&gt;
-        </pre>
+        <div class="example mb-4 sm:mb-6 xs:mb-5">
+          <h3 class="mb-1 text-base text-gray-800 font-medium xs:mb-2 xs:text-lg dark:text-white">
+            With Options
+          </h3>
+          <CodeBlock :theme="codeBlockTheme" lang="vue" :code="loremIpsumWithOptions" />
+        </div>
+
+        <div class="example">
+          <h3 class="mb-1 text-base text-gray-800 font-medium xs:mb-2 xs:text-lg dark:text-white">
+            Using Function
+          </h3>
+          <CodeBlock :theme="codeBlockTheme" lang="javascript" :code="loremIpsumFunction" />
+        </div>
       </div>
 
-      <div class="example mb-4 sm:mb-6 xs:mb-5">
-        <h3 class="mb-1 text-base text-gray-800 font-medium xs:mb-2 xs:text-lg dark:text-white">
-          With Options
-        </h3>
-        <pre
-          class="overflow-x-auto rounded bg-gray-100 p-1.5 text-xs text-gray-800 dark:bg-gray-900 sm:p-4 xs:p-3 sm:text-base xs:text-sm dark:text-gray-300">
-&lt;LoremIpsum
-  :p="3"
-  :avg-words-per-sentence="10"
-  :avg-sentences-per-paragraph="5"
-  :start-with-lorem-ipsum="true"
-  :random="true"
-/&gt;
-        </pre>
-      </div>
+      <!-- Random User Tab Examples -->
+      <div v-if="activeTab === 'random-user'">
+        <div class="example mb-4 sm:mb-6 xs:mb-5">
+          <h3 class="mb-1 text-base text-gray-800 font-medium xs:mb-2 xs:text-lg dark:text-white">
+            Avatar Component
+          </h3>
+          <CodeBlock :theme="codeBlockTheme" lang="vue" :code="avatarComponent" />
+        </div>
 
-      <div class="example">
-        <h3 class="mb-1 text-base text-gray-800 font-medium xs:mb-2 xs:text-lg dark:text-white">
-          Using Functions
-        </h3>
-        <pre
-          class="overflow-x-auto rounded bg-gray-100 p-1.5 text-xs text-gray-800 dark:bg-gray-900 sm:p-4 xs:p-3 sm:text-base xs:text-sm dark:text-gray-300">
-import { loremIpsum, name, surname, fullname, username } from 'loip'
+        <div class="example mb-4 sm:mb-6 xs:mb-5">
+          <h3 class="mb-1 text-base text-gray-800 font-medium xs:mb-2 xs:text-lg dark:text-white">
+            Name Functions
+          </h3>
+          <CodeBlock :theme="codeBlockTheme" lang="javascript" :code="nameFunctions" />
+        </div>
 
-const paragraphs = loremIpsum({ p: 2 })
-const userName = name('male')
-const userSurname = surname()
-const userFullName = fullname('female')
-const userUsername = username()
-        </pre>
+        <div class="example">
+          <h3 class="mb-1 text-base text-gray-800 font-medium xs:mb-2 xs:text-lg dark:text-white">
+            Username & Avatar URL
+          </h3>
+          <CodeBlock :theme="codeBlockTheme" lang="javascript" :code="usernameAndAvatarUrl" />
+        </div>
       </div>
     </div>
   </div>
@@ -341,13 +357,8 @@ const userUsername = username()
 <style scoped>
 .demo-container {
   transition: all 0.3s ease;
-  background-color: #f5f5f5;
   min-height: 100vh;
   width: 100%;
-}
-
-html.dark .demo-container {
-  background-color: #1a1a1a;
 }
 
 .theme-toggle {
