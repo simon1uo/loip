@@ -1,4 +1,7 @@
 // Data for lorem ipsum generation
+// Import types from types directory
+import type { Gender, LoremIpsumOptions } from '../types/lorem-ipsum'
+
 const words = [
   'a',
   'ac',
@@ -320,14 +323,6 @@ function getRandomWord(useRandom: boolean = true): string {
 }
 
 // Main functions for lorem ipsum generation
-export interface LoremIpsumOptions {
-  p?: number
-  avgWordsPerSentence?: number
-  avgSentencesPerParagraph?: number
-  startWithLoremIpsum?: boolean
-  random?: boolean
-}
-
 export function loremIpsum(options: LoremIpsumOptions = {}): string[] {
   const {
     p = 1,
@@ -387,8 +382,6 @@ export function loremIpsum(options: LoremIpsumOptions = {}): string[] {
 }
 
 // Avatar and name generation functions
-export type Gender = 'male' | 'female' | 'all'
-
 export function name(gender: Gender = 'all'): string {
   if (gender === 'male') {
     return getRandomElement(maleNames)

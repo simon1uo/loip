@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Gender } from '../utils/lorem-ipsum'
+import type { Gender } from '../types/lorem-ipsum'
 import { useDark, useToggle } from '@vueuse/core'
 import { computed, reactive, ref } from 'vue'
 import {

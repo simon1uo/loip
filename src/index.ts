@@ -1,5 +1,5 @@
 // Types
-import type { Gender, LoremIpsumOptions } from './utils/lorem-ipsum'
+import type { Gender, LoremIpsumOptions } from './types/lorem-ipsum'
 import Avatar from './components/Avatar.vue'
 
 // Components

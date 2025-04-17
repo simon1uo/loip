@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Gender } from '../utils/lorem-ipsum'
+import type { Gender } from '../types/lorem-ipsum'
 import { computed } from 'vue'
 import { avatarUrl } from '../utils/lorem-ipsum'
 

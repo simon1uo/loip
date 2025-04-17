@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { LoremIpsumOptions } from '../utils/lorem-ipsum'
+import type { LoremIpsumOptions } from '../types/lorem-ipsum'
 import { ref, watch } from 'vue'
 import { loremIpsum } from '../utils/lorem-ipsum'
 
