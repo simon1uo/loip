@@ -13,6 +13,7 @@ const props = defineProps<{
 const highlightedCode = ref('')
 const isLoading = ref(true)
 const highlighter = ref<HighlighterGeneric<BundledLanguage, BundledTheme> | null>(null)
+const isCopied = ref(false)
 
 // Default values
 const language = computed(() => props.lang || 'javascript')
@@ -49,7 +50,7 @@ async function highlightCode() {
     // Add a class to the pre element to ensure proper indentation
     highlightedCode.value = highlightedCode.value.replace(
       /<pre class="shiki/g,
-      '<pre class="shiki preserve-whitespace'
+      '<pre class="shiki preserve-whitespace',
     )
   }
   catch (error) {
@@ -85,6 +86,20 @@ watch([() => props.theme, () => props.code, () => props.lang], async () => {
     await highlightCode()
   }
 })
+
+// Function to copy code to clipboard
+async function copyToClipboard() {
+  try {
+    await navigator.clipboard.writeText(props.code)
+    isCopied.value = true
+    setTimeout(() => {
+      isCopied.value = false
+    }, 2000)
+  }
+  catch (error) {
+    console.error('Failed to copy code:', error)
+  }
+}
 
 // Helper function to add line numbers
 function addLineNumbers(html: string): string {
@@ -129,7 +144,16 @@ function escapeHtml(unsafe: string): string {
     <div v-if="isLoading" class="code-loading">
       Loading...
     </div>
-    <div v-else class="code-container font-mono" v-html="highlightedCode" />
+    <div v-else class="code-container-wrapper relative">
+      <div class="code-container font-mono" v-html="highlightedCode" />
+      <button class="copy-button absolute right-2 top-2 z-10 rounded-md p-1.5 transition-colors duration-200" :class="{
+        'bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600': !isCopied,
+        'bg-green-100 dark:bg-green-800': isCopied,
+      }" :title="isCopied ? 'Copied!' : 'Copy code'" @click="copyToClipboard">
+        <div v-if="!isCopied" class="i-lucide-clipboard h-4 w-4 text-gray-600 dark:text-gray-300" />
+        <div v-else class="i-lucide-check h-4 w-4 text-green-600 dark:text-green-300" />
+      </button>
+    </div>
   </div>
 </template>
 
@@ -141,9 +165,22 @@ function escapeHtml(unsafe: string): string {
   overflow: hidden;
 }
 
+.code-container-wrapper {
+  position: relative;
+}
+
 .code-container {
   overflow-x: auto;
   font-family: 'Roboto Mono', monospace;
+}
+
+.copy-button {
+
+  opacity: 0.7;
+}
+
+.code-container-wrapper:hover .copy-button {
+  opacity: 1;
 }
 
 .code-container :deep(.shiki) {
