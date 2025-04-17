@@ -1,21 +1,21 @@
-// Components
-import LoremIpsum from './components/LoremIpsum.vue'
+// Types
+import type { Gender, LoremIpsumOptions } from './utils/lorem-ipsum'
 import Avatar from './components/Avatar.vue'
 
-// Functions
-import { loremIpsum, name, surname, fullname, username, avatarUrl } from './utils/lorem-ipsum'
+// Components
+import LoremIpsum from './components/LoremIpsum.vue'
 
-// Types
-import type { LoremIpsumOptions, Gender } from './utils/lorem-ipsum'
+// Functions
+import { avatarUrl, fullname, loremIpsum, name, surname, username } from './utils/lorem-ipsum'
 
 // Export components
-export { LoremIpsum, Avatar }
+export { Avatar, LoremIpsum }
 
 // Export functions
-export { loremIpsum, name, surname, fullname, username, avatarUrl }
+export { avatarUrl, fullname, loremIpsum, name, surname, username }
 
 // Export types
-export type { LoremIpsumOptions, Gender }
+export type { Gender, LoremIpsumOptions }
 
 // Default export
 export default {
@@ -26,5 +26,5 @@ export default {
   surname,
   fullname,
   username,
-  avatarUrl
+  avatarUrl,
 }

@@ -1,34 +1,10 @@
 {
   "name": "loip",
+  "type": "module",
   "version": "1.0.0",
   "description": "Lorem Ipsum Text Generator for Vue 3",
-  "type": "module",
-  "main": "dist/loip.umd.js",
-  "module": "dist/loip.es.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc -b && vite build",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "vue": "^3.5.13"
-  },
-  "devDependencies": {
-    "@types/node": "^22.14.1",
-    "@unocss/preset-attributify": "66.1.0-beta.11",
-    "@unocss/preset-icons": "66.1.0-beta.11",
-    "@unocss/preset-uno": "66.1.0-beta.11",
-    "@vitejs/plugin-vue": "^5.2.2",
-    "@vue/tsconfig": "^0.7.0",
-    "typescript": "~5.7.2",
-    "unocss": "66.1.0-beta.11",
-    "vite": "^6.3.1",
-    "vue-tsc": "^2.2.8"
-  },
+  "author": "simon1uo",
+  "license": "MIT",
   "keywords": [
     "vue",
     "vue3",
@@ -47,6 +23,34 @@
     "full name",
     "username"
   ],
-  "author": "",
-  "license": "MIT"
+  "main": "dist/loip.umd.js",
+  "module": "dist/loip.es.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext .vue,.ts,.js --fix"
+  },
+  "dependencies": {
+    "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^4.12.0",
+    "@types/node": "^22.14.1",
+    "@unocss/eslint-plugin": "^66.0.0",
+    "@unocss/preset-attributify": "66.1.0-beta.11",
+    "@unocss/preset-icons": "66.1.0-beta.11",
+    "@unocss/preset-uno": "66.1.0-beta.11",
+    "@vitejs/plugin-vue": "^5.2.2",
+    "@vue/tsconfig": "^0.7.0",
+    "eslint": "^9.24.0",
+    "typescript": "~5.7.2",
+    "unocss": "66.1.0-beta.11",
+    "vite": "^6.3.1",
+    "vue-tsc": "^2.2.8"
+  }
 }

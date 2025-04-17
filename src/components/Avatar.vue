@@ -1,24 +1,24 @@
-<template>
-  <img :src="avatarSrc" v-bind="$attrs" class="avatar" />
-</template>
-
 <script setup lang="ts">
+import type { Gender } from '../utils/lorem-ipsum'
 import { computed } from 'vue'
 import { avatarUrl } from '../utils/lorem-ipsum'
-import type { Gender } from '../utils/lorem-ipsum'
 
 interface Props {
   gender?: Gender
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  gender: 'all'
+  gender: 'all',
 })
 
 const avatarSrc = computed(() => {
   return avatarUrl(props.gender)
 })
 </script>
+
+<template>
+  <img :src="avatarSrc" v-bind="$attrs" class="avatar">
+</template>
 
 <style scoped>
 .avatar {

@@ -31,13 +31,13 @@ yarn add loip
 ### Components
 
 ```js
-import { LoremIpsum, Avatar } from 'loip'
+import { Avatar, LoremIpsum } from 'loip'
 ```
 
 ### Functions
 
 ```js
-import { loremIpsum, name, surname, fullname, username } from 'loip'
+import { fullname, loremIpsum, name, surname, username } from 'loip'
 ```
 
 ## Props
