@@ -3,7 +3,12 @@ import { defineConfig, presetAttributify, presetIcons, presetWebFonts, presetWin
 export default defineConfig({
   presets: [
     presetAttributify(),
-    presetIcons(),
+    presetIcons({
+      scale: 1.2,
+      collections: {
+        lucide: () => import('@iconify-json/lucide/icons.json').then(i => i.default),
+      },
+    }),
     presetWind3(),
     presetWebFonts({
       provider: 'bunny',
