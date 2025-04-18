@@ -1,7 +1,40 @@
 html {
   background-color: #f5f5f5;
+  --scrollbar-track: rgba(224, 224, 224, 0.7);
+  --scrollbar-thumb: rgba(176, 176, 176, 0.8);
+  --scrollbar-thumb-hover: rgba(144, 144, 144, 0.9);
 }
 
 html.dark {
   background-color: #1a1a1a;
+  --scrollbar-track: rgba(42, 42, 42, 0.7);
+  --scrollbar-thumb: rgba(68, 68, 68, 0.8);
+  --scrollbar-thumb-hover: rgba(85, 85, 85, 0.9);
+}
+
+/* Global scrollbar styles */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+/* Firefox scrollbar styles */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 }
