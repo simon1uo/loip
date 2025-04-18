@@ -18,6 +18,36 @@ Thank you for your interest in contributing to Loip! This document provides guid
 
 This project uses ESLint for code linting. Run `pnpm lint` to check and fix code style issues.
 
+## Commit Message Guidelines
+
+We follow the [Conventional Commits](https://www.conventionalcommits.org/) specification for our commit messages. This leads to more readable messages that are easy to follow when looking through the project history and helps generate the changelog.
+
+Each commit message should be structured as follows:
+
+```text
+<type>(<scope>): <subject>
+```
+
+### Types
+
+- **feat**: A new feature
+- **fix**: A bug fix
+- **docs**: Documentation only changes
+- **style**: Changes that do not affect the meaning of the code (white-space, formatting, etc)
+- **refactor**: A code change that neither fixes a bug nor adds a feature
+- **perf**: A code change that improves performance
+- **test**: Adding missing tests or correcting existing tests
+- **chore**: Changes to the build process or auxiliary tools and libraries
+
+### Examples
+
+```text
+feat(i18n): add Chinese language support
+fix(avatar): correct avatar sizing on mobile devices
+docs: update installation instructions
+chore: update dependencies
+```
+
 ## Pull Request Process
 
 1. Create a new branch for your feature or bugfix
@@ -41,7 +71,8 @@ This project uses GitHub Actions for automated publishing to NPM:
 This will:
 - Bump the version in package.json
 - Create a new git tag
-- Create a GitHub release
+- Generate a changelog from commit history
+- Create a GitHub release with the changelog
 - Trigger the npm-publish workflow to publish the package to NPM
 
 ### Manual Release
