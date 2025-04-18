@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Gender, Language } from '../types/lorem-ipsum'
+import type { Gender, Language, LoremIpsumOptions } from '../types/lorem-ipsum'
 import { useDark, useToggle } from '@vueuse/core'
 import { computed, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -11,7 +11,7 @@ import {
   nameFunctions,
   usernameAndAvatarUrl,
 } from '../utils/code-examples'
-import { fullname, username } from '../utils/lorem-ipsum'
+import { fullname, loremIpsum, username } from '../utils/lorem-ipsum'
 import Avatar from './Avatar.vue'
 import CodeBlock from './CodeBlock.vue'
 import LoremIpsum from './LoremIpsum.vue'
@@ -39,6 +39,23 @@ const options = reactive({
   avgSentencesPerParagraph: 6,
   startWithLoremIpsum: true,
   random: true,
+})
+
+// Compute formatted Lorem Ipsum text for CodeBlock
+const loremIpsumText = computed(() => {
+  const loremOptions: LoremIpsumOptions = {
+    p: options.p,
+    avgWordsPerSentence: options.avgWordsPerSentence,
+    avgSentencesPerParagraph: options.avgSentencesPerParagraph,
+    startWithLoremIpsum: options.startWithLoremIpsum,
+    random: options.random,
+  }
+
+  // Get paragraphs from loremIpsum function
+  const paragraphs = loremIpsum(loremOptions)
+
+  // Join paragraphs with double line breaks for better readability
+  return paragraphs.join('\n\n')
 })
 
 // Language selection for user data
@@ -275,10 +292,21 @@ function shuffleUsers() {
         <h2 class="mb-2 text-lg text-dark font-semibold sm:mb-4 xs:mb-3 sm:text-xl dark:text-white">
           {{ t('loremIpsum.output') }}
         </h2>
-        <LoremIpsum
-          :p="options.p" :avg-words-per-sentence="options.avgWordsPerSentence"
-          :avg-sentences-per-paragraph="options.avgSentencesPerParagraph"
-          :start-with-lorem-ipsum="options.startWithLoremIpsum" :random="options.random" class="text-sm sm:text-base"
+        <!-- Hidden LoremIpsum component to maintain reactivity -->
+        <div class="hidden">
+          <LoremIpsum
+            :p="options.p" :avg-words-per-sentence="options.avgWordsPerSentence"
+            :avg-sentences-per-paragraph="options.avgSentencesPerParagraph"
+            :start-with-lorem-ipsum="options.startWithLoremIpsum" :random="options.random"
+          />
+        </div>
+        <!-- Display the Lorem Ipsum text using CodeBlock for copy functionality -->
+        <CodeBlock
+          :code="loremIpsumText"
+          :theme="codeBlockTheme"
+          :line-numbers="false"
+          lang="text"
+          class="lorem-ipsum-code-block"
         />
       </div>
     </div>
@@ -483,6 +511,17 @@ function shuffleUsers() {
 .tab-button:last-child {
   border-top-right-radius: 0.375rem;
   border-bottom-right-radius: 0.375rem;
+}
+
+/* Custom styles for Lorem Ipsum CodeBlock to enable text wrapping */
+.lorem-ipsum-code-block :deep(.shiki) {
+  white-space: pre-wrap !important;
+  word-wrap: break-word !important;
+}
+
+.lorem-ipsum-code-block :deep(code) {
+  white-space: pre-wrap !important;
+  word-wrap: break-word !important;
 }
 
 /* Add responsive breakpoint styles */
