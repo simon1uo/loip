@@ -41,11 +41,31 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
 
-      - name: Bump version
+      - name: Check Git Status
+        id: git_status
         run: |
-          npm version ${{ github.event.inputs.version }}
+          if [[ -n $(git status --porcelain) ]]; then
+            echo "Working directory is not clean"
+            echo "HAS_CHANGES=true" >> $GITHUB_OUTPUT
+          else
+            echo "Working directory is clean"
+            echo "HAS_CHANGES=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit Changes If Needed
+        if: steps.git_status.outputs.HAS_CHANGES == 'true'
+        run: |
+          git add .
+          git commit -m "chore: auto-commit changes before version bump"
+
+      - name: Bump version
+        id: version
+        run: |
+          # Use pnpm to execute npm version command
+          pnpm exec npm version ${{ github.event.inputs.version }}
           VERSION=$(node -p "require('./package.json').version")
           echo "NEW_VERSION=$VERSION" >> $GITHUB_ENV
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Push changes
         run: git push --follow-tags
@@ -55,7 +75,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ env.NEW_VERSION }}
-          release_name: Release v${{ env.NEW_VERSION }}
+          tag_name: v${{ steps.version.outputs.version }}
+          release_name: Release v${{ steps.version.outputs.version }}
           draft: false
           prerelease: false
