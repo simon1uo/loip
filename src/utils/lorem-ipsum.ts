@@ -1,6 +1,12 @@
 // Data for lorem ipsum generation
 // Import types from types directory
-import type { Gender, LoremIpsumOptions } from '../types/lorem-ipsum'
+import type { Gender, Language, LoremIpsumOptions } from '../types/lorem-ipsum'
+// Import Chinese data
+import { chineseFemaleNames, chineseMaleNames, chineseSurnames, chineseUsernameAdjectives, chineseUsernameNouns } from './chinese-data'
+// Import Chinese pinyin data for usernames
+import { chinesePinyinAdjectives, chinesePinyinNouns } from './chinese-pinyin-data'
+// Import English data
+import { englishFemaleNames, englishMaleNames, englishSurnames, englishUsernameAdjectives, englishUsernameNouns } from './english-data'
 
 const words = [
   'a',
@@ -182,131 +188,7 @@ const words = [
   'vulputate',
 ]
 
-// Names for avatar generation
-const maleNames = [
-  'James',
-  'John',
-  'Robert',
-  'Michael',
-  'William',
-  'David',
-  'Richard',
-  'Joseph',
-  'Thomas',
-  'Charles',
-  'Christopher',
-  'Daniel',
-  'Matthew',
-  'Anthony',
-  'Mark',
-  'Donald',
-  'Steven',
-  'Paul',
-  'Andrew',
-  'Joshua',
-]
-
-const femaleNames = [
-  'Mary',
-  'Patricia',
-  'Jennifer',
-  'Linda',
-  'Elizabeth',
-  'Barbara',
-  'Susan',
-  'Jessica',
-  'Sarah',
-  'Karen',
-  'Nancy',
-  'Lisa',
-  'Margaret',
-  'Betty',
-  'Sandra',
-  'Ashley',
-  'Dorothy',
-  'Kimberly',
-  'Emily',
-  'Donna',
-]
-
-const surnames = [
-  'Smith',
-  'Johnson',
-  'Williams',
-  'Jones',
-  'Brown',
-  'Davis',
-  'Miller',
-  'Wilson',
-  'Moore',
-  'Taylor',
-  'Anderson',
-  'Thomas',
-  'Jackson',
-  'White',
-  'Harris',
-  'Martin',
-  'Thompson',
-  'Garcia',
-  'Martinez',
-  'Robinson',
-  'Clark',
-  'Rodriguez',
-  'Lewis',
-  'Lee',
-  'Walker',
-  'Hall',
-  'Allen',
-  'Young',
-  'Hernandez',
-  'King',
-]
-
-const usernameAdjectives = [
-  'happy',
-  'smart',
-  'cool',
-  'brave',
-  'clever',
-  'bright',
-  'swift',
-  'quick',
-  'fast',
-  'strong',
-  'mighty',
-  'super',
-  'mega',
-  'ultra',
-  'hyper',
-  'epic',
-  'awesome',
-  'amazing',
-  'brilliant',
-  'fantastic',
-]
-
-const usernameNouns = [
-  'cat',
-  'dog',
-  'fox',
-  'wolf',
-  'tiger',
-  'lion',
-  'eagle',
-  'hawk',
-  'bear',
-  'panda',
-  'coder',
-  'dev',
-  'guru',
-  'ninja',
-  'wizard',
-  'master',
-  'hero',
-  'champion',
-  'star',
-  'legend',
-]
+// Names for avatar generation are now imported from english-data.ts and chinese-data.ts
 
 // Helper functions
 function getRandomInt(min: number, max: number, useRandom: boolean = true): number {
@@ -382,50 +264,96 @@ export function loremIpsum(options: LoremIpsumOptions = {}): string[] {
 }
 
 // Avatar and name generation functions
-export function name(gender: Gender = 'all'): string {
-  if (gender === 'male') {
-    return getRandomElement(maleNames)
+export function name(gender: Gender = 'all', language: Language = 'en'): string {
+  if (language === 'en') {
+    if (gender === 'male') {
+      return getRandomElement(englishMaleNames)
+    }
+    else if (gender === 'female') {
+      return getRandomElement(englishFemaleNames)
+    }
+    else {
+      return getRandomElement([...englishMaleNames, ...englishFemaleNames])
+    }
   }
-  else if (gender === 'female') {
-    return getRandomElement(femaleNames)
-  }
-  else {
-    return getRandomElement([...maleNames, ...femaleNames])
+  else { // Chinese names
+    if (gender === 'male') {
+      return getRandomElement(chineseMaleNames)
+    }
+    else if (gender === 'female') {
+      return getRandomElement(chineseFemaleNames)
+    }
+    else {
+      return getRandomElement([...chineseMaleNames, ...chineseFemaleNames])
+    }
   }
 }
 
-export function surname(): string {
-  return getRandomElement(surnames)
+export function surname(language: Language = 'en'): string {
+  return language === 'en'
+    ? getRandomElement(englishSurnames)
+    : getRandomElement(chineseSurnames)
 }
 
-export function fullname(gender: Gender = 'all'): string {
-  const firstName = name(gender)
-  const middleInitial = String.fromCharCode(65 + getRandomInt(0, 25))
-  const lastName = surname()
+export function fullname(gender: Gender = 'all', language: Language = 'en'): string {
+  if (language === 'en') {
+    const firstName = name(gender, language)
+    const middleInitial = String.fromCharCode(65 + getRandomInt(0, 25))
+    const lastName = surname(language)
 
-  return getRandomInt(1, 10) <= 3
-    ? `${firstName} ${middleInitial}. ${lastName}`
-    : `${firstName} ${lastName}`
+    return getRandomInt(1, 10) <= 3
+      ? `${firstName} ${middleInitial}. ${lastName}`
+      : `${firstName} ${lastName}`
+  }
+  else { // Chinese names
+    // In Chinese, surname comes first followed by given name
+    const lastName = surname(language)
+    const firstName = name(gender, language)
+    return `${lastName}${firstName}`
+  }
 }
 
-export function username(): string {
-  const adjective = getRandomElement(usernameAdjectives)
-  const noun = getRandomElement(usernameNouns)
-  const number = getRandomInt(1, 99)
+export function username(language: Language = 'en'): string {
+  if (language === 'en') {
+    const adjective = getRandomElement(englishUsernameAdjectives)
+    const noun = getRandomElement(englishUsernameNouns)
+    const number = getRandomInt(1, 99)
 
-  const formats = [
-    `${adjective}_${noun}`,
-    `${adjective}.${noun}.${number}`,
-    `${adjective}${noun}${number}`,
-    `${noun}_${adjective}`,
-    `${adjective}_${noun}_${number}`,
-  ]
+    const formats = [
+      `${adjective}_${noun}`,
+      `${adjective}.${noun}.${number}`,
+      `${adjective}${noun}${number}`,
+      `${noun}_${adjective}`,
+      `${adjective}_${noun}_${number}`,
+    ]
 
-  return getRandomElement(formats)
+    return getRandomElement(formats)
+  }
+  else { // Chinese usernames with pinyin (romanized) characters
+    // Get the index of a random Chinese adjective and noun
+    const adjectiveIndex = getRandomInt(0, chineseUsernameAdjectives.length - 1)
+    const nounIndex = getRandomInt(0, chineseUsernameNouns.length - 1)
+
+    // Use the same index to get the corresponding pinyin
+    const adjective = chinesePinyinAdjectives[adjectiveIndex]
+    const noun = chinesePinyinNouns[nounIndex]
+    const number = getRandomInt(1, 99)
+
+    const formats = [
+      `${adjective}_${noun}`,
+      `${adjective}${noun}${number}`,
+      `${noun}_${adjective}`,
+      `${adjective}.${noun}`,
+      `${noun}${adjective}${number}`,
+    ]
+
+    return getRandomElement(formats)
+  }
 }
 
 // Avatar URL generation
-export function avatarUrl(gender: Gender = 'all'): string {
+export function avatarUrl(gender: Gender = 'all', _language: Language = 'en'): string {
+  // We use the same avatar service for both languages since it's just placeholder images
   const actualGender = gender === 'all' ? (getRandomInt(0, 1) === 0 ? 'male' : 'female') : gender
   const id = getRandomInt(1, 99)
 

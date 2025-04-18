@@ -1,5 +1,5 @@
 // Types
-import type { Gender, LoremIpsumOptions } from './types/lorem-ipsum'
+import type { Gender, Language, LoremIpsumOptions } from './types/lorem-ipsum'
 import Avatar from './components/Avatar.vue'
 
 // Components
@@ -15,7 +15,7 @@ export { Avatar, LoremIpsum }
 export { avatarUrl, fullname, loremIpsum, name, surname, username }
 
 // Export types
-export type { Gender, LoremIpsumOptions }
+export type { Gender, Language, LoremIpsumOptions }
 
 // Default export
 export default {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Gender } from '../types/lorem-ipsum'
+import type { Gender, Language } from '../types/lorem-ipsum'
 import { useDark, useToggle } from '@vueuse/core'
 import { computed, reactive, ref } from 'vue'
 import {
@@ -37,27 +37,30 @@ const options = reactive({
   random: true,
 })
 
+// Language selection for user data
+const selectedLanguage = ref<Language>('en')
+
 // User data for random user tab
 const userData = reactive({
   maleUser: {
-    fullname: fullname('male'),
-    username: username(),
+    fullname: fullname('male', selectedLanguage.value),
+    username: username(selectedLanguage.value),
     avatarKey: Math.floor(Math.random() * 99) + 1,
   },
   femaleUser: {
-    fullname: fullname('female'),
-    username: username(),
+    fullname: fullname('female', selectedLanguage.value),
+    username: username(selectedLanguage.value),
     avatarKey: Math.floor(Math.random() * 99) + 1,
   },
   randomUser1: {
-    fullname: fullname(),
-    username: username(),
+    fullname: fullname('all', selectedLanguage.value),
+    username: username(selectedLanguage.value),
     avatarKey: Math.floor(Math.random() * 99) + 1,
     gender: Math.random() > 0.5 ? 'male' : 'female' as const,
   },
   randomUser2: {
-    fullname: fullname(),
-    username: username(),
+    fullname: fullname('all', selectedLanguage.value),
+    username: username(selectedLanguage.value),
     avatarKey: Math.floor(Math.random() * 99) + 1,
     gender: Math.random() > 0.5 ? 'male' : 'female' as const,
   },
@@ -83,23 +86,29 @@ function forceRefresh() {
   })
 }
 
+// Toggle language between English and Chinese
+function toggleLanguage() {
+  selectedLanguage.value = selectedLanguage.value === 'en' ? 'zh' : 'en'
+  shuffleUsers()
+}
+
 // Shuffle users to get new random data
 function shuffleUsers() {
-  userData.maleUser.fullname = fullname('male')
-  userData.maleUser.username = username()
+  userData.maleUser.fullname = fullname('male', selectedLanguage.value)
+  userData.maleUser.username = username(selectedLanguage.value)
   userData.maleUser.avatarKey = Math.floor(Math.random() * 99) + 1
 
-  userData.femaleUser.fullname = fullname('female')
-  userData.femaleUser.username = username()
+  userData.femaleUser.fullname = fullname('female', selectedLanguage.value)
+  userData.femaleUser.username = username(selectedLanguage.value)
   userData.femaleUser.avatarKey = Math.floor(Math.random() * 99) + 1
 
-  userData.randomUser1.fullname = fullname()
-  userData.randomUser1.username = username()
+  userData.randomUser1.fullname = fullname('all', selectedLanguage.value)
+  userData.randomUser1.username = username(selectedLanguage.value)
   userData.randomUser1.avatarKey = Math.floor(Math.random() * 99) + 1
   userData.randomUser1.gender = Math.random() > 0.5 ? 'male' : 'female' as const
 
-  userData.randomUser2.fullname = fullname()
-  userData.randomUser2.username = username()
+  userData.randomUser2.fullname = fullname('all', selectedLanguage.value)
+  userData.randomUser2.username = username(selectedLanguage.value)
   userData.randomUser2.avatarKey = Math.floor(Math.random() * 99) + 1
   userData.randomUser2.gender = Math.random() > 0.5 ? 'male' : 'female' as const
 }
@@ -252,27 +261,43 @@ function shuffleUsers() {
 
     <div v-if="activeTab === 'random-user'">
       <div class="controls mb-4 rounded-lg bg-gray-100 p-2 sm:mb-8 xs:mb-5 dark:bg-gray-800 sm:p-4 xs:p-3">
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between mb-3">
           <h2 class="mb-0 text-lg text-dark font-semibold sm:mb-0 xs:mb-0 sm:text-xl dark:text-white">
             Random User Profiles
           </h2>
-          <button
-            class="shuffle-button rounded-lg bg-blue-500 px-4 py-2 text-white dark:bg-blue-600 hover:bg-blue-600 dark:hover:bg-blue-700"
-            @click="shuffleUsers"
-          >
-            <span class="flex items-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg" class="mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                />
-              </svg>
-              Shuffle Users
-            </span>
-          </button>
+          <div class="flex gap-2">
+            <button
+              class="language-toggle rounded-lg px-4 py-2 text-white"
+              :class="selectedLanguage === 'en' ? 'bg-blue-600' : 'bg-gray-500'"
+              @click="selectedLanguage = 'en'; shuffleUsers()"
+            >
+              English
+            </button>
+            <button
+              class="language-toggle rounded-lg px-4 py-2 text-white"
+              :class="selectedLanguage === 'zh' ? 'bg-blue-600' : 'bg-gray-500'"
+              @click="selectedLanguage = 'zh'; shuffleUsers()"
+            >
+              中文
+            </button>
+            <button
+              class="shuffle-button rounded-lg bg-blue-500 px-4 py-2 text-white dark:bg-blue-600 hover:bg-blue-600 dark:hover:bg-blue-700"
+              @click="shuffleUsers"
+            >
+              <span class="flex items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg" class="mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                  />
+                </svg>
+                Shuffle
+              </span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -286,7 +311,7 @@ function shuffleUsers() {
             class="user-card border border-gray-200 rounded-lg bg-white p-2 text-center dark:border-gray-700 dark:bg-gray-700 sm:p-4 xs:p-3"
           >
             <Avatar
-              :key="userData.maleUser.avatarKey" gender="male"
+              :key="userData.maleUser.avatarKey" gender="male" :language="selectedLanguage"
               class="mx-auto mb-2 h-12 w-12 sm:mb-4 xs:mb-3 md:h-24 md:w-24 sm:h-20 sm:w-20 xs:h-16 xs:w-16"
             />
             <h3 class="text-base text-gray-800 font-medium sm:text-lg dark:text-white">
@@ -301,7 +326,7 @@ function shuffleUsers() {
             class="user-card border border-gray-200 rounded-lg bg-white p-2 text-center dark:border-gray-700 dark:bg-gray-700 sm:p-4 xs:p-3"
           >
             <Avatar
-              :key="userData.femaleUser.avatarKey" gender="female"
+              :key="userData.femaleUser.avatarKey" gender="female" :language="selectedLanguage"
               class="mx-auto mb-2 h-12 w-12 sm:mb-4 xs:mb-3 md:h-24 md:w-24 sm:h-20 sm:w-20 xs:h-16 xs:w-16"
             />
             <h3 class="text-base text-gray-800 font-medium sm:text-lg dark:text-white">
@@ -316,7 +341,7 @@ function shuffleUsers() {
             class="user-card border border-gray-200 rounded-lg bg-white p-2 text-center dark:border-gray-700 dark:bg-gray-700 sm:p-4 xs:p-3"
           >
             <Avatar
-              :key="userData.randomUser1.avatarKey" :gender="userData.randomUser1.gender as Gender"
+              :key="userData.randomUser1.avatarKey" :gender="userData.randomUser1.gender as Gender" :language="selectedLanguage"
               class="mx-auto mb-2 h-12 w-12 sm:mb-4 xs:mb-3 md:h-24 md:w-24 sm:h-20 sm:w-20 xs:h-16 xs:w-16"
             />
             <h3 class="text-base text-gray-800 font-medium sm:text-lg dark:text-white">
@@ -331,7 +356,7 @@ function shuffleUsers() {
             class="user-card border border-gray-200 rounded-lg bg-white p-2 text-center dark:border-gray-700 dark:bg-gray-700 sm:p-4 xs:p-3"
           >
             <Avatar
-              :key="userData.randomUser2.avatarKey" :gender="userData.randomUser2.gender as Gender"
+              :key="userData.randomUser2.avatarKey" :gender="userData.randomUser2.gender as Gender" :language="selectedLanguage"
               class="mx-auto mb-2 h-12 w-12 sm:mb-4 xs:mb-3 md:h-24 md:w-24 sm:h-20 sm:w-20 xs:h-16 xs:w-16"
             />
             <h3 class="text-base text-gray-800 font-medium sm:text-lg dark:text-white">

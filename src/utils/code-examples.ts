@@ -24,13 +24,13 @@ paragraphs.forEach(paragraph => {
 
 export const avatarComponent = `import { Avatar } from 'loip'
 
-// Male avatar
-<Avatar gender="male" class="w-12 h-12 rounded-full" />
+// Male avatar (English)
+<Avatar gender="male" language="en" class="w-12 h-12 rounded-full" />
 
-// Female avatar
-<Avatar gender="female" class="w-12 h-12 rounded-full" />
+// Female avatar (Chinese)
+<Avatar gender="female" language="zh" class="w-12 h-12 rounded-full" />
 
-// Random gender avatar
+// Random gender avatar (default language is English)
 <Avatar gender="all" class="w-12 h-12 rounded-full" />
 
 // With key prop for refreshing when data changes
@@ -38,23 +38,34 @@ export const avatarComponent = `import { Avatar } from 'loip'
 
 export const nameFunctions = `import { name, surname, fullname, username } from 'loip'
 
-// Generate random names
-const maleName = name('male')       // e.g. "John"
-const femaleName = name('female')   // e.g. "Mary"
-const randomName = name()           // e.g. "David" or "Susan"
+// Generate random names (English by default)
+const maleName = name('male')                // e.g. "John"
+const femaleName = name('female')            // e.g. "Mary"
+const randomName = name()                    // e.g. "David" or "Susan"
+
+// Generate Chinese names
+const chineseMaleName = name('male', 'zh')   // e.g. "伟"
+const chineseFemaleName = name('female', 'zh') // e.g. "芳"
 
 // Generate random surname
-const lastName = surname()          // e.g. "Smith"
+const lastName = surname()                   // e.g. "Smith"
+const chineseLastName = surname('zh')        // e.g. "李"
 
 // Generate random full names
-const maleFullName = fullname('male')       // e.g. "Michael Johnson"
-const femaleFullName = fullname('female')   // e.g. "Jennifer Wilson"
-const randomFullName = fullname()           // e.g. "Thomas Brown" or "Lisa Davis"`
+const maleFullName = fullname('male')        // e.g. "Michael Johnson"
+const femaleFullName = fullname('female')    // e.g. "Jennifer Wilson"
+const randomFullName = fullname()            // e.g. "Thomas Brown" or "Lisa Davis"
+
+// Generate Chinese full names
+const chineseFullName = fullname('all', 'zh') // e.g. "李伟" or "王芳"`
 
 export const usernameAndAvatarUrl = `import { username, avatarUrl } from 'loip'
 
-// Generate random username
-const user = username()  // e.g. "cool_ninja42" or "happy.tiger.7"
+// Generate random username (English by default)
+const user = username()                // e.g. "cool_ninja42" or "happy.tiger.7"
+
+// Generate Chinese username (in pinyin/romanized form)
+const chineseUser = username('zh')     // e.g. "kuaile_mao" or "chaoji_gaoshou42"
 
 // Generate avatar URLs
 const maleAvatarUrl = avatarUrl('male')     // URL to a male avatar image

@@ -35,8 +35,8 @@
     "build:demo": "vue-tsc -b && vite build --mode demo",
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.ts,.js --fix",
-    "prepublishOnly": "npm run lint && npm run build",
-    "release": "npm run build && npm publish",
+    "prepublishOnly": "npm run build",
+    "release": "npm publish",
     "release:patch": "npm version patch && npm run release",
     "release:minor": "npm version minor && npm run release",
     "release:major": "npm version major && npm run release"

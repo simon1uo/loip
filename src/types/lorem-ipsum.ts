@@ -9,3 +9,5 @@ export interface LoremIpsumOptions {
 }
 
 export type Gender = 'male' | 'female' | 'all'
+
+export type Language = 'en' | 'zh'
