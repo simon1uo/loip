@@ -233,3 +233,7 @@ import { fullname, username } from 'loip'
   <div class="username">@smart.fox.19</div>
 </div>
 ```
+
+## License
+
+[MIT](LICENSE) © 2024 Simon Luo
