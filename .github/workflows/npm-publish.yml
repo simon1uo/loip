@@ -4,6 +4,11 @@ on:
   release:
     types: [created]
 
+# Set explicit permissions for the GITHUB_TOKEN
+permissions:
+  contents: read    # Only need read permissions for npm publish
+  packages: write   # For publishing packages
+
 jobs:
   build:
     runs-on: ubuntu-latest

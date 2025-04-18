@@ -13,6 +13,12 @@ on:
           - minor
           - major
 
+# Set explicit permissions for the GITHUB_TOKEN
+permissions:
+  contents: write    # This allows pushing to the repository
+  pull-requests: write
+  issues: write
+
 jobs:
   release:
     runs-on: ubuntu-latest
