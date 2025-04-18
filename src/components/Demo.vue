@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { Gender, Language } from '../types/lorem-ipsum'
 import { useDark, useToggle } from '@vueuse/core'
-import { computed, reactive, ref } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import {
   avatarComponent,
   loremIpsumBasic,
@@ -14,6 +15,9 @@ import { fullname, username } from '../utils/lorem-ipsum'
 import Avatar from './Avatar.vue'
 import CodeBlock from './CodeBlock.vue'
 import LoremIpsum from './LoremIpsum.vue'
+
+// Setup i18n
+const { t, locale } = useI18n()
 
 // Use VueUse's useDark hook to detect and toggle dark mode
 const isDark = useDark()
@@ -39,6 +43,12 @@ const options = reactive({
 
 // Language selection for user data
 const selectedLanguage = ref<Language>('en')
+
+// Watch for i18n locale changes and update selectedLanguage
+watch(locale, (newLocale) => {
+  selectedLanguage.value = newLocale as Language
+  shuffleUsers()
+})
 
 // User data for random user tab
 const userData = reactive({
@@ -86,11 +96,7 @@ function forceRefresh() {
   })
 }
 
-// Toggle language between English and Chinese
-function toggleLanguage() {
-  selectedLanguage.value = selectedLanguage.value === 'en' ? 'zh' : 'en'
-  shuffleUsers()
-}
+// No need for toggleLanguage function anymore since we're using v-model with select
 
 // Shuffle users to get new random data
 function shuffleUsers() {
@@ -120,18 +126,39 @@ function shuffleUsers() {
   >
     <div class="mb-3 flex flex-row items-center justify-between gap-3 sm:mb-6 xs:mb-4 sm:gap-0">
       <h1 class="text-center text-2xl text-dark font-bold sm:text-3xl dark:text-white">
-        LoIp
+        {{ t('app.title') }}
       </h1>
-      <button
-        class="theme-toggle h-10 w-10 flex items-center justify-center rounded-lg bg-gray-200 p-2 text-black dark:bg-gray-700 dark:text-white"
-        aria-label="Toggle dark mode" @click="toggleDark()"
-      >
-        <div v-if="isDark" class="i-lucide-sun text-lg" />
-        <div v-else class="i-lucide-moon text-lg" />
-      </button>
+      <div class="flex gap-2">
+        <!-- Language select dropdown -->
+        <div class="language-select-container relative h-10 flex items-center">
+          <select
+            v-model="locale"
+            class="language-select h-10 appearance-none rounded-lg bg-gray-200 pl-3 pr-8 text-black dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            aria-label="Select language"
+          >
+            <option value="en">
+              {{ t('languages.en') }}
+            </option>
+            <option value="zh">
+              {{ t('languages.zh') }}
+            </option>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2">
+            <div class="i-lucide-globe text-lg text-black dark:text-white" />
+          </div>
+        </div>
+        <!-- Theme toggle button -->
+        <button
+          class="theme-toggle h-10 w-10 flex items-center justify-center rounded-lg bg-gray-200 p-2 text-black dark:bg-gray-700 dark:text-white"
+          aria-label="Toggle dark mode" @click="toggleDark()"
+        >
+          <div v-if="isDark" class="i-lucide-sun text-lg" />
+          <div v-else class="i-lucide-moon text-lg" />
+        </button>
+      </div>
     </div>
     <p class="mb-4 text-center text-sm text-gray-700 sm:mb-8 xs:mb-5 sm:text-base dark:text-gray-300">
-      A Vue 3 component for generating placeholder text
+      {{ t('app.description') }}
     </p>
 
     <!-- Tab Navigation -->
@@ -142,7 +169,7 @@ function shuffleUsers() {
           'bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-300': activeTab !== 'lorem-ipsum',
         }" @click="setActiveTab('lorem-ipsum')"
       >
-        Lorem Ipsum
+        {{ t('tabs.loremIpsum') }}
       </button>
       <button
         class="tab-button flex-1 px-4 py-3 text-center font-medium transition-colors duration-200" :class="{
@@ -150,7 +177,7 @@ function shuffleUsers() {
           'bg-blue-600 text-white': activeTab === 'random-user',
         }" @click="setActiveTab('random-user')"
       >
-        Random User
+        {{ t('tabs.randomUser') }}
       </button>
     </div>
 
@@ -159,7 +186,7 @@ function shuffleUsers() {
       <div class="controls mb-4 rounded-lg bg-gray-100 p-2 sm:mb-8 xs:mb-5 dark:bg-gray-800 sm:p-4 xs:p-3">
         <div class="mb-2 flex items-center justify-between sm:mb-4 xs:mb-3">
           <h2 class="mb-0 text-lg text-dark font-semibold sm:text-xl dark:text-white">
-            Options
+            {{ t('loremIpsum.options') }}
           </h2>
           <button
             class="refresh-button rounded-lg bg-blue-500 px-4 py-2 text-white dark:bg-blue-600 hover:bg-blue-600 dark:hover:bg-blue-700"
@@ -175,7 +202,7 @@ function shuffleUsers() {
                   d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
                 />
               </svg>
-              Refresh Text
+              {{ t('loremIpsum.refresh') }}
             </span>
           </button>
         </div>
@@ -185,7 +212,7 @@ function shuffleUsers() {
             <label
               for="paragraphs"
               class="mb-1 block text-sm text-gray-700 sm:mb-2 sm:text-base dark:text-gray-300"
-            >Paragraphs</label>
+            >{{ t('loremIpsum.paragraphs') }}</label>
             <input
               id="paragraphs" v-model.number="options.p" type="number" min="1" max="10"
               class="w-full border border-gray-300 rounded bg-white p-1.5 text-sm text-gray-800 dark:border-gray-600 dark:bg-gray-700 sm:p-2 sm:text-base dark:text-white"
@@ -196,8 +223,7 @@ function shuffleUsers() {
             <label
               for="avgWordsPerSentence"
               class="mb-1 block text-sm text-gray-700 sm:mb-2 sm:text-base dark:text-gray-300"
-            >Avg. Words Per
-              Sentence</label>
+            >{{ t('loremIpsum.wordsPerSentence') }}</label>
             <input
               id="avgWordsPerSentence" v-model.number="options.avgWordsPerSentence" type="number" min="3" max="15"
               class="w-full border border-gray-300 rounded bg-white p-1.5 text-sm text-gray-800 dark:border-gray-600 dark:bg-gray-700 sm:p-2 sm:text-base dark:text-white"
@@ -208,8 +234,7 @@ function shuffleUsers() {
             <label
               for="avgSentencesPerParagraph"
               class="mb-1 block text-sm text-gray-700 sm:mb-2 sm:text-base dark:text-gray-300"
-            >Avg. Sentences Per
-              Paragraph</label>
+            >{{ t('loremIpsum.sentencesPerParagraph') }}</label>
             <input
               id="avgSentencesPerParagraph" v-model.number="options.avgSentencesPerParagraph" type="number" min="1"
               max="10"
@@ -223,8 +248,7 @@ function shuffleUsers() {
                 id="startWithLoremIpsum" v-model="options.startWithLoremIpsum" type="checkbox"
                 class="mr-1.5 xs:mr-2 dark:accent-blue-500"
               >
-              <label for="startWithLoremIpsum" class="text-sm text-gray-700 xs:text-base dark:text-gray-300">Start with
-                "Lorem ipsum"</label>
+              <label for="startWithLoremIpsum" class="text-sm text-gray-700 xs:text-base dark:text-gray-300">{{ t('loremIpsum.startWithLoremIpsum') }}</label>
             </div>
 
             <div>
@@ -232,7 +256,7 @@ function shuffleUsers() {
                 id="random" v-model="options.random" type="checkbox" class="mr-1.5 xs:mr-2 dark:accent-blue-500"
                 @change="forceRefresh"
               >
-              <label for="random" class="text-sm text-gray-700 xs:text-base dark:text-gray-300">Random text</label>
+              <label for="random" class="text-sm text-gray-700 xs:text-base dark:text-gray-300">{{ t('loremIpsum.random') }}</label>
             </div>
           </div>
 
@@ -241,7 +265,7 @@ function shuffleUsers() {
               class="reset-button w-full rounded-lg bg-blue-400 px-4 py-2 text-white dark:bg-blue-600 hover:bg-blue-500 dark:hover:bg-blue-700"
               @click="resetToDefaultProps"
             >
-              Reset to Default Props
+              {{ t('loremIpsum.resetToDefault') }}
             </button>
           </div>
         </div>
@@ -249,7 +273,7 @@ function shuffleUsers() {
 
       <div class="output mb-4 rounded-lg bg-white p-2 shadow sm:mb-8 xs:mb-5 dark:bg-gray-800 md:p-6 sm:p-4 xs:p-3">
         <h2 class="mb-2 text-lg text-dark font-semibold sm:mb-4 xs:mb-3 sm:text-xl dark:text-white">
-          Lorem Ipsum Text
+          {{ t('loremIpsum.output') }}
         </h2>
         <LoremIpsum
           :p="options.p" :avg-words-per-sentence="options.avgWordsPerSentence"
@@ -261,25 +285,29 @@ function shuffleUsers() {
 
     <div v-if="activeTab === 'random-user'">
       <div class="controls mb-4 rounded-lg bg-gray-100 p-2 sm:mb-8 xs:mb-5 dark:bg-gray-800 sm:p-4 xs:p-3">
-        <div class="flex items-center justify-between mb-3">
+        <div class="mb-3 flex items-center justify-between">
           <h2 class="mb-0 text-lg text-dark font-semibold sm:mb-0 xs:mb-0 sm:text-xl dark:text-white">
-            Random User Profiles
+            {{ t('randomUser.title') }}
           </h2>
           <div class="flex gap-2">
-            <button
-              class="language-toggle rounded-lg px-4 py-2 text-white"
-              :class="selectedLanguage === 'en' ? 'bg-blue-600' : 'bg-gray-500'"
-              @click="selectedLanguage = 'en'; shuffleUsers()"
-            >
-              English
-            </button>
-            <button
-              class="language-toggle rounded-lg px-4 py-2 text-white"
-              :class="selectedLanguage === 'zh' ? 'bg-blue-600' : 'bg-gray-500'"
-              @click="selectedLanguage = 'zh'; shuffleUsers()"
-            >
-              中文
-            </button>
+            <div class="language-select-container relative h-10 flex items-center">
+              <select
+                v-model="selectedLanguage"
+                class="language-select h-10 appearance-none rounded-lg bg-gray-200 pl-3 pr-8 text-black dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                aria-label="Select language"
+                @change="shuffleUsers()"
+              >
+                <option value="en">
+                  {{ t('languages.en') }}
+                </option>
+                <option value="zh">
+                  {{ t('languages.zh') }}
+                </option>
+              </select>
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2">
+                <div class="i-lucide-globe text-lg" />
+              </div>
+            </div>
             <button
               class="shuffle-button rounded-lg bg-blue-500 px-4 py-2 text-white dark:bg-blue-600 hover:bg-blue-600 dark:hover:bg-blue-700"
               @click="shuffleUsers"
@@ -294,7 +322,7 @@ function shuffleUsers() {
                     d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
                   />
                 </svg>
-                Shuffle
+                {{ t('randomUser.shuffle') }}
               </span>
             </button>
           </div>
@@ -372,28 +400,28 @@ function shuffleUsers() {
 
     <div class="code-examples rounded-lg bg-white p-2 shadow dark:bg-gray-800 sm:p-6 xs:p-3">
       <h2 class="mb-3 text-lg text-dark font-semibold xs:mb-4 xs:text-xl dark:text-white">
-        Usage Examples
+        {{ t('codeExamples.title') }}
       </h2>
 
       <!-- Lorem Ipsum Tab Examples -->
       <div v-if="activeTab === 'lorem-ipsum'">
         <div class="example mb-4 sm:mb-6 xs:mb-5">
           <h3 class="mb-1 text-base text-gray-800 font-medium xs:mb-2 xs:text-lg dark:text-white">
-            Basic Usage
+            {{ t('codeExamples.basicUsage') }}
           </h3>
           <CodeBlock :theme="codeBlockTheme" lang="javascript" :code="loremIpsumBasic" />
         </div>
 
         <div class="example mb-4 sm:mb-6 xs:mb-5">
           <h3 class="mb-1 text-base text-gray-800 font-medium xs:mb-2 xs:text-lg dark:text-white">
-            With Options
+            {{ t('codeExamples.withOptions') }}
           </h3>
           <CodeBlock :theme="codeBlockTheme" lang="vue" :code="loremIpsumWithOptions" />
         </div>
 
         <div class="example">
           <h3 class="mb-1 text-base text-gray-800 font-medium xs:mb-2 xs:text-lg dark:text-white">
-            Using Function
+            {{ t('codeExamples.function') }}
           </h3>
           <CodeBlock :theme="codeBlockTheme" lang="javascript" :code="loremIpsumFunction" />
         </div>
@@ -403,21 +431,21 @@ function shuffleUsers() {
       <div v-if="activeTab === 'random-user'">
         <div class="example mb-4 sm:mb-6 xs:mb-5">
           <h3 class="mb-1 text-base text-gray-800 font-medium xs:mb-2 xs:text-lg dark:text-white">
-            Avatar Component
+            {{ t('codeExamples.avatar') }}
           </h3>
           <CodeBlock :theme="codeBlockTheme" lang="vue" :code="avatarComponent" />
         </div>
 
         <div class="example mb-4 sm:mb-6 xs:mb-5">
           <h3 class="mb-1 text-base text-gray-800 font-medium xs:mb-2 xs:text-lg dark:text-white">
-            Name Functions
+            {{ t('codeExamples.names') }}
           </h3>
           <CodeBlock :theme="codeBlockTheme" lang="javascript" :code="nameFunctions" />
         </div>
 
         <div class="example">
           <h3 class="mb-1 text-base text-gray-800 font-medium xs:mb-2 xs:text-lg dark:text-white">
-            Username & Avatar URL
+            {{ t('codeExamples.usernameAndAvatar') }}
           </h3>
           <CodeBlock :theme="codeBlockTheme" lang="javascript" :code="usernameAndAvatarUrl" />
         </div>
@@ -433,8 +461,13 @@ function shuffleUsers() {
   width: 100%;
 }
 
-.theme-toggle {
+.theme-toggle,
+.language-select {
   transition: all 0.3s ease;
+}
+
+.language-select {
+  min-width: 100px;
 }
 
 .tab-button {
