@@ -1,97 +1,96 @@
 # Loip
 
-[中文文档](README.zh-CN.md)
+[English Documentation](README.md)
 
-[![npm version](https://img.shields.io/npm/v/loip.svg)](https://www.npmjs.com/package/loip)
-[![npm downloads](https://img.shields.io/npm/dm/loip.svg)](https://www.npmjs.com/package/loip)
-[![License](https://img.shields.io/npm/l/loip.svg)](https://github.com/simon1uo/loip/blob/main/LICENSE)
-[![Vue Version](https://img.shields.io/badge/Vue-3.x-brightgreen.svg)](https://vuejs.org/)
+[![npm 版本](https://img.shields.io/npm/v/loip.svg)](https://www.npmjs.com/package/loip)
+[![许可证](https://img.shields.io/npm/l/loip.svg)](https://github.com/simon1uo/loip/blob/main/LICENSE)
+[![Vue 版本](https://img.shields.io/badge/Vue-3.x-brightgreen.svg)](https://vuejs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue.svg)](https://www.typescriptlang.org/)
-[![GitHub stars](https://img.shields.io/github/stars/simon1uo/loip.svg?style=social)](https://github.com/simon1uo/loip)
+[![GitHub 星标](https://img.shields.io/github/stars/simon1uo/loip.svg?style=social)](https://github.com/simon1uo/loip)
 
-**Loip** is a Vue 3 library including components and functions to **generate placeholder text**.
+**Loip** 是一个 Vue 3 库，包含用于**生成占位文本**的组件和函数。
 
-When you develop a mockup page or backend API is not ready for data fetching and you have to make Frontend Development with static data until it comes, `loip` will create your gibberish texts for you.
+当您开发模拟页面或后端 API 尚未准备好进行数据获取，而您必须使用静态数据进行前端开发直到数据就绪时，`loip` 将为您创建随机文本。
 
-In addition to Lorem Ipsum text, you can generate **random avatars, names, surnames, full names** and **usernames** to fill the fields about users randomly.
+除了 Lorem Ipsum 文本外，您还可以生成**随机头像、名字、姓氏、全名**和**用户名**，以随机填充有关用户的字段。
 
-👍 **loip** is a zero-dependency, easy-to-use package.
+👍 **loip** 是一个零依赖、易于使用的包。
 
-## Demo
+## DEMO
 
 [https://loip-demo.vercel.app/](https://loip-demo.vercel.app/)
 
-## Install
+## 安装
 
 ```bash
 npm install loip
 ```
 
-or
+或者
 
 ```bash
 pnpm add loip
 ```
 
-or
+或者
 
 ```bash
 yarn add loip
 ```
 
-## How to Import
+## 如何导入
 
-### Components
+### 组件
 
 ```js
 import { Avatar, LoremIpsum } from 'loip'
 ```
 
-### Functions
+### 函数
 
 ```js
 import { fullname, loremIpsum, name, surname, username } from 'loip'
 ```
 
-## Props
+## 属性
 
-### LoremIpsum (Component), loremIpsum (function)
+### LoremIpsum (组件), loremIpsum (函数)
 
-**loremIpsum** is function version of the component **LoremIpsum** which generates plain text instead of HTML. They both get the same props/inputs as a single object.
+**loremIpsum** 是组件 **LoremIpsum** 的函数版本，它生成纯文本而不是 HTML。它们都接收相同的属性/输入作为单个对象。
 
-| Name | Type | Default | Description |
+| 名称 | 类型 | 默认值 | 描述 |
 | --- | --- | --- | --- |
-| p | number | 1 | Number of paragraphs that will be generated |
-| avgWordsPerSentence | number | 8 | Avarage number of words created for each sentence (standard deviation is fixed ±25%) |
-| avgSentencesPerParagraph | number | 8 | Avarage number of sentences created for each paragraph (standard deviation is fixed ±25%) |
-| startWithLoremIpsum | bool | true | Start with 'Lorem ipsum odor amet...' to first sentence of first paragraph |
-| random | bool | true | If disabled always generates the same text |
+| p | number | 1 | 将生成的段落数 |
+| avgWordsPerSentence | number | 8 | 每个句子创建的平均单词数（标准偏差固定为 ±25%） |
+| avgSentencesPerParagraph | number | 8 | 每个段落创建的平均句子数（标准偏差固定为 ±25%） |
+| startWithLoremIpsum | bool | true | 第一段的第一句以 'Lorem ipsum odor amet...' 开始 |
+| random | bool | true | 如果禁用，则始终生成相同的文本 |
 
-_Note:_ If you use loremIpsum function to generate plain text, it will return an "Array" with length of the desired count. You can use "Array.map" or similar methods to process the data. See [Examples](#examples) for details.
+_注意：_ 如果您使用 loremIpsum 函数生成纯文本，它将返回一个长度为所需计数的"数组"。您可以使用 "Array.map" 或类似方法来处理数据。有关详细信息，请参见[示例](#示例)。
 
-### Avatar (Component)
+### Avatar (组件)
 
-| Name | Type | Default | Description |
+| 名称 | 类型 | 默认值 | 描述 |
 | --- | --- | --- | --- |
-| gender | string | 'all' | Gender for the Avatar picture. Possible values are **'all'**, **'male'** and **'female'**. |
+| gender | string | 'all' | 头像图片的性别。可能的值是 **'all'**、**'male'** 和 **'female'**。 |
 
-_Note:_ Avatar component returns an `<img />` tag with a random image. All other props like "className, width, height, alt" etc. will directly passed to element.
+_注意：_ Avatar 组件返回一个带有随机图像的 `<img />` 标签。所有其他属性如 "className, width, height, alt" 等将直接传递给元素。
 
-### name, fullname (Functions)
+### name, fullname (函数)
 
-| Name | Type | Default | Description |
+| 名称 | 类型 | 默认值 | 描述 |
 | --- | --- | --- | --- |
-| gender | string | 'all' | Gender for the generated name or full name. Possible values are **'all'**, **'male'** and **'female'**. |
+| gender | string | 'all' | 生成的名字或全名的性别。可能的值是 **'all'**、**'male'** 和 **'female'**。 |
 
-### surname, username (Functions)
+### surname, username (函数)
 
-`surname` and `username` functions **does not take any inputs**. They just create random surnames and usernames respectively.
+`surname` 和 `username` 函数**不接受任何输入**。它们只是分别创建随机姓氏和用户名。
 
-## Examples
+## 示例
 
-### LoremIpsum (Component)
+### LoremIpsum (组件)
 
-**Code**
+**代码**
 
 ```jsx
 import { LoremIpsum } from 'loip'
@@ -103,7 +102,7 @@ import { LoremIpsum } from 'loip'
 </template>
 ```
 
-**HTML Output**
+**HTML 输出**
 
 ```html
 <div class="text-wrapper">
@@ -122,9 +121,9 @@ import { LoremIpsum } from 'loip'
 </div>
 ```
 
-### loremIpsum (Function)
+### loremIpsum (函数)
 
-**Code 1**
+**代码 1**
 
 ```jsx
 import { loremIpsum } from 'loip'
@@ -134,7 +133,7 @@ import { loremIpsum } from 'loip'
 </template>
 ```
 
-**HTML Output 1**
+**HTML 输出 1**
 
 ```html
 <div class="text-wrapper">
@@ -145,7 +144,7 @@ import { loremIpsum } from 'loip'
 </div>
 ```
 
-**Code 2**
+**代码 2**
 
 ```jsx
 import { loremIpsum } from 'loip'
@@ -159,7 +158,7 @@ import { loremIpsum } from 'loip'
 </template>
 ```
 
-**HTML Output 2**
+**HTML 输出 2**
 
 ```html
 <div class="text-wrapper">
@@ -186,14 +185,14 @@ import { loremIpsum } from 'loip'
 
 ### Avatar, name, surname, fullname, username
 
-**Code 1**
+**代码 1**
 
 ```jsx
 import { Avatar, name, surname, username } from 'loip'
 
 <template>
   <div class="user">
-    <!-- All props will be directly transferred to img element -->
+    <!-- 所有属性将直接传递给 img 元素 -->
     <Avatar gender="male" class="avatar" width="200" height="200" alt="Avatar" />
     <div class="name">{{ name('male') }}</div>
     <div class="surname">{{ surname() }}</div>
@@ -202,7 +201,7 @@ import { Avatar, name, surname, username } from 'loip'
 </template>
 ```
 
-**HTML Output 1**
+**HTML 输出 1**
 
 ```html
 <div class="user">
@@ -213,7 +212,7 @@ import { Avatar, name, surname, username } from 'loip'
 </div>
 ```
 
-**Code 2**
+**代码 2**
 
 ```jsx
 import { fullname, username } from 'loip'
@@ -226,7 +225,7 @@ import { fullname, username } from 'loip'
 </template>
 ```
 
-**HTML Output 2**
+**HTML 输出 2**
 
 ```html
 <div class="user">

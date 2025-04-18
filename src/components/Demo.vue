@@ -172,6 +172,14 @@ function shuffleUsers() {
           <div v-if="isDark" class="i-lucide-sun text-lg" />
           <div v-else class="i-lucide-moon text-lg" />
         </button>
+
+        <a href="https://github.com/simon1uo/loip" target="_blank">
+          <button
+            class="h-10 w-10 flex items-center justify-center rounded-lg bg-gray-200 p-2 text-black dark:bg-gray-700 dark:text-white"
+          >
+            <div class="i-lucide-github" />
+          </button>
+        </a>
       </div>
     </div>
     <p class="mb-4 text-center text-sm text-gray-700 sm:mb-8 xs:mb-5 sm:text-base dark:text-gray-300">
@@ -226,10 +234,8 @@ function shuffleUsers() {
 
         <div class="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-4 xs:gap-3">
           <div class="form-group">
-            <label
-              for="paragraphs"
-              class="mb-1 block text-sm text-gray-700 sm:mb-2 sm:text-base dark:text-gray-300"
-            >{{ t('loremIpsum.paragraphs') }}</label>
+            <label for="paragraphs" class="mb-1 block text-sm text-gray-700 sm:mb-2 sm:text-base dark:text-gray-300">{{
+              t('loremIpsum.paragraphs') }}</label>
             <input
               id="paragraphs" v-model.number="options.p" type="number" min="1" max="10"
               class="w-full border border-gray-300 rounded bg-white p-1.5 text-sm text-gray-800 dark:border-gray-600 dark:bg-gray-700 sm:p-2 sm:text-base dark:text-white"
@@ -240,7 +246,8 @@ function shuffleUsers() {
             <label
               for="avgWordsPerSentence"
               class="mb-1 block text-sm text-gray-700 sm:mb-2 sm:text-base dark:text-gray-300"
-            >{{ t('loremIpsum.wordsPerSentence') }}</label>
+            >{{
+              t('loremIpsum.wordsPerSentence') }}</label>
             <input
               id="avgWordsPerSentence" v-model.number="options.avgWordsPerSentence" type="number" min="3" max="15"
               class="w-full border border-gray-300 rounded bg-white p-1.5 text-sm text-gray-800 dark:border-gray-600 dark:bg-gray-700 sm:p-2 sm:text-base dark:text-white"
@@ -251,7 +258,8 @@ function shuffleUsers() {
             <label
               for="avgSentencesPerParagraph"
               class="mb-1 block text-sm text-gray-700 sm:mb-2 sm:text-base dark:text-gray-300"
-            >{{ t('loremIpsum.sentencesPerParagraph') }}</label>
+            >{{
+              t('loremIpsum.sentencesPerParagraph') }}</label>
             <input
               id="avgSentencesPerParagraph" v-model.number="options.avgSentencesPerParagraph" type="number" min="1"
               max="10"
@@ -265,7 +273,8 @@ function shuffleUsers() {
                 id="startWithLoremIpsum" v-model="options.startWithLoremIpsum" type="checkbox"
                 class="mr-1.5 xs:mr-2 dark:accent-blue-500"
               >
-              <label for="startWithLoremIpsum" class="text-sm text-gray-700 xs:text-base dark:text-gray-300">{{ t('loremIpsum.startWithLoremIpsum') }}</label>
+              <label for="startWithLoremIpsum" class="text-sm text-gray-700 xs:text-base dark:text-gray-300">{{
+                t('loremIpsum.startWithLoremIpsum') }}</label>
             </div>
 
             <div>
@@ -273,7 +282,8 @@ function shuffleUsers() {
                 id="random" v-model="options.random" type="checkbox" class="mr-1.5 xs:mr-2 dark:accent-blue-500"
                 @change="forceRefresh"
               >
-              <label for="random" class="text-sm text-gray-700 xs:text-base dark:text-gray-300">{{ t('loremIpsum.random') }}</label>
+              <label for="random" class="text-sm text-gray-700 xs:text-base dark:text-gray-300">{{
+                t('loremIpsum.random') }}</label>
             </div>
           </div>
 
@@ -302,10 +312,7 @@ function shuffleUsers() {
         </div>
         <!-- Display the Lorem Ipsum text using CodeBlock for copy functionality -->
         <CodeBlock
-          :code="loremIpsumText"
-          :theme="codeBlockTheme"
-          :line-numbers="false"
-          lang="text"
+          :code="loremIpsumText" :theme="codeBlockTheme" :line-numbers="false" lang="text"
           class="lorem-ipsum-code-block"
         />
       </div>
@@ -322,8 +329,7 @@ function shuffleUsers() {
               <select
                 v-model="selectedLanguage"
                 class="language-select h-10 appearance-none rounded-lg bg-gray-200 pl-3 pr-8 text-black dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                aria-label="Select language"
-                @change="shuffleUsers()"
+                aria-label="Select language" @change="shuffleUsers()"
               >
                 <option value="en">
                   {{ t('languages.en') }}
@@ -397,7 +403,8 @@ function shuffleUsers() {
             class="user-card border border-gray-200 rounded-lg bg-white p-2 text-center dark:border-gray-700 dark:bg-gray-700 sm:p-4 xs:p-3"
           >
             <Avatar
-              :key="userData.randomUser1.avatarKey" :gender="userData.randomUser1.gender as Gender" :language="selectedLanguage"
+              :key="userData.randomUser1.avatarKey" :gender="userData.randomUser1.gender as Gender"
+              :language="selectedLanguage"
               class="mx-auto mb-2 h-12 w-12 sm:mb-4 xs:mb-3 md:h-24 md:w-24 sm:h-20 sm:w-20 xs:h-16 xs:w-16"
             />
             <h3 class="text-base text-gray-800 font-medium sm:text-lg dark:text-white">
@@ -412,7 +419,8 @@ function shuffleUsers() {
             class="user-card border border-gray-200 rounded-lg bg-white p-2 text-center dark:border-gray-700 dark:bg-gray-700 sm:p-4 xs:p-3"
           >
             <Avatar
-              :key="userData.randomUser2.avatarKey" :gender="userData.randomUser2.gender as Gender" :language="selectedLanguage"
+              :key="userData.randomUser2.avatarKey" :gender="userData.randomUser2.gender as Gender"
+              :language="selectedLanguage"
               class="mx-auto mb-2 h-12 w-12 sm:mb-4 xs:mb-3 md:h-24 md:w-24 sm:h-20 sm:w-20 xs:h-16 xs:w-16"
             />
             <h3 class="text-base text-gray-800 font-medium sm:text-lg dark:text-white">
