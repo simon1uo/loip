@@ -1,7 +1,7 @@
 {
   "name": "loip",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Lorem Ipsum Text Generator for Vue 3",
   "author": "simon1uo",
   "license": "MIT",
