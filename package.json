@@ -33,10 +33,11 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
+    "prebuild:demo": "npm run build",
     "build:demo": "vue-tsc -b && vite build --mode demo",
     "preview": "vite preview",
     "lint": "eslint --cache . --fix",
-    "prepublishOnly": "npm run build",
+    "prerelease": "npm run build",
     "release": "bumpp"
   },
   "dependencies": {
