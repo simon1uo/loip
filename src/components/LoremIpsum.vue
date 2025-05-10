@@ -3,7 +3,7 @@ import type { LoremIpsumOptions } from '../types/lorem-ipsum'
 import { ref, watch } from 'vue'
 import { loremIpsum } from '../utils/lorem-ipsum'
 
-interface Props {
+export interface LoremIpsumProps {
   p?: number
   avgWordsPerSentence?: number
   avgSentencesPerParagraph?: number
@@ -11,7 +11,7 @@ interface Props {
   random?: boolean
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<LoremIpsumProps>(), {
   p: 1,
   avgWordsPerSentence: 8,
   avgSentencesPerParagraph: 8,

@@ -3,12 +3,12 @@ import type { Gender, Language } from '../types/lorem-ipsum'
 import { computed } from 'vue'
 import { avatarUrl } from '../utils/lorem-ipsum'
 
-interface Props {
+export interface AvatarProps {
   gender?: Gender
   language?: Language
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<AvatarProps>(), {
   gender: 'all',
   language: 'en',
 })
