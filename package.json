@@ -6,6 +6,10 @@
   "description": "Lorem Ipsum Text Generator for Vue 3",
   "author": "simon1uo",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/simon1uo/loip"
+  },
   "keywords": [
     "vue",
     "vue3",
