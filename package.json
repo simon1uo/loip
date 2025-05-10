@@ -34,12 +34,9 @@
     "build": "vue-tsc -b && vite build",
     "build:demo": "vue-tsc -b && vite build --mode demo",
     "preview": "vite preview",
-    "lint": "eslint . --ext .vue,.ts,.js --fix",
+    "lint": "eslint --cache . --fix",
     "prepublishOnly": "npm run build",
-    "release": "npm publish",
-    "release:patch": "npm version patch && npm run release",
-    "release:minor": "npm version minor && npm run release",
-    "release:major": "npm version major && npm run release"
+    "release": "bumpp"
   },
   "dependencies": {
     "@vueuse/core": "^13.1.0",
@@ -58,10 +55,14 @@
     "@unocss/reset": "66.1.0-beta.11",
     "@vitejs/plugin-vue": "^5.2.2",
     "@vue/tsconfig": "^0.7.0",
+    "bumpp": "^10.1.0",
+    "changelogithub": "^13.13.0",
     "eslint": "^9.24.0",
+    "simple-git-hooks": "^2.13.0",
     "typescript": "~5.7.2",
     "unocss": "66.1.0-beta.11",
     "vite": "^6.3.1",
+    "vite-plugin-dts": "^4.5.3",
     "vue-tsc": "^2.2.8"
   }
 }
